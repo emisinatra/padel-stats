@@ -1,3 +1,4 @@
+import "the-new-css-reset/css/reset.css";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { ToastContainer } from "react-toastify";
