@@ -27,7 +27,6 @@ export default function App() {
       />
 
       <Route path="/board" element={<Board />} />
-
       <Route path="/nuevo-jugador" element={<RegisterPlayer />} />
       <Route path="/*" element={<Navigate to="/" />} />
     </Routes>

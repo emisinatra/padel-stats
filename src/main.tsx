@@ -8,6 +8,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { MatchProvider } from "./contexts/MatchContext";
 import { theme } from "./theme";
 import App from "./App";
+import "./GlobalFont.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
