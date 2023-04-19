@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import OptionsModal from "../components/OptionsModal.jsx";
-import GameHeader from "../components/GameHeader";
-import Footer from "../components/Footer.jsx";
+import GameHeader from "../components/GameHeader.jsx";
+import Footer from "../components/Footer.js";
 
 const golpesWinners = [
   "Forehand",

@@ -5,8 +5,10 @@ import { supabase } from "../supabase";
 
 export const [AuthProvider, useAuth] = constate(() => {
   const [user, setUser] = useState(null);
-  // LOADING | AUTHENTICATED | NOT_AUTHENTICATED
-  const [status, setStatus] = useState("LOADING");
+
+  const [status, setStatus] = useState<
+    "LOADING" | "AUTHENTICATED" | "NOT_AUTHENTICATED"
+  >("LOADING");
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
