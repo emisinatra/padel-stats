@@ -1,5 +1,6 @@
 import { Country, State } from "country-state-city";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +24,25 @@ const signUpSchema = z
 
 type SignUpFields = z.infer<typeof signUpSchema>;
 
+const signUp = async (data: SignUpFields) => {
+  const { error } = await supabase.auth.signUp({
+    email: data.email,
+    password: data.password,
+    options: {
+      data: {
+        telephone: data.telephone,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        dateOfBirth: data.dateOfBirth,
+        country: data.country,
+        state: data.state,
+      },
+    },
+  });
+
+  if (error) throw error;
+};
+
 export default function SignUp() {
   const {
     control,
@@ -38,17 +58,17 @@ export default function SignUp() {
   const { country } = useWatch({ control });
 
   const onSubmit = handleSubmit(async (data) => {
-    /*     const { error } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-    });
-
-    if (error) throw error; */
+    try {
+      await signUp(data);
+      toast.success("A confirmation email has been sent");
+    } catch (error) {
+      toast.error(error.message);
+    }
   });
 
   return (
     <Center style={{ height: "100vh" }}>
-      <VStack as="form">
+      <VStack as="form" onSubmit={onSubmit} style={{ width: "390px" }}>
         <HStack>
           <FormControl>
             <Label>Email</Label>
@@ -119,7 +139,7 @@ export default function SignUp() {
 
         {errors.root && <p>{errors.root.message}</p>}
 
-        <HStack style={{ justifyContent: "space-between" }}>
+        <HStack style={{ fontSize: "0.8rem", justifyContent: "space-between" }}>
           <Button as={Link} to="/sign-in">
             Already have an account?
           </Button>

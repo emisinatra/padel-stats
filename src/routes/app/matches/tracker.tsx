@@ -1,3 +1,3 @@
 export default function Tracker() {
-  return null;
+  return <div />;
 }

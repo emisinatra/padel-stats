@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import constate from "constate";
 
 import { supabase } from "../supabase";
+import { useTimeout } from "usehooks-ts";
 
 export const [AuthProvider, useAuth] = constate(() => {
   const [user, setUser] = useState(null);
 
-  const [status, setStatus] = useState<
-    "LOADING" | "AUTHENTICATED" | "NOT_AUTHENTICATED"
-  >("LOADING");
+  const [status, setStatus] = useState<"LOADING" | "AUTHENTICATED" | "NOT_AUTHENTICATED">("LOADING");
 
-  useEffect(() => {
+  useTimeout(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         setUser(session.user);
@@ -20,7 +19,7 @@ export const [AuthProvider, useAuth] = constate(() => {
         setStatus("NOT_AUTHENTICATED");
       }
     });
-  }, []);
+  }, 1000);
 
   useEffect(() => {
     const {
