@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const Select = styled.select`
   border-color: ${({ theme }) => theme.colors.lime[600]};
@@ -8,4 +8,4 @@ export const Select = styled.select`
 
   padding: 0.8rem;
   width: 100%;
-`;
+`

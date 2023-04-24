@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 type HelpTextProps = {
-  variant: "info" | "error" | "warning" | "success";
-};
+  variant: "info" | "error" | "warning" | "success"
+}
 
-export const HelpText = styled.p<HelpTextProps>``;
+export const HelpText = styled.p<HelpTextProps>``

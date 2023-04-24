@@ -1,29 +1,29 @@
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Link, useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 
-import { Button, FormControl, HStack, Input, Label, VStack } from "../components";
-import { signIn, signInSchema } from "../controllers/auth/signIn";
-import type { SignInFields } from "../controllers/auth/signIn";
+import { Button, FormControl, HStack, Input, Label, VStack } from "../components"
+import { signIn, signInSchema } from "../controllers/auth/signIn"
+import type { SignInFields } from "../controllers/auth/signIn"
 
 export default function SignIn() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const { handleSubmit, register } = useForm<SignInFields>({
     resolver: zodResolver(signInSchema),
     shouldUseNativeValidation: false,
-  });
+  })
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await signIn(data);
-      toast.success("Welcome!");
-      navigate("/app");
+      await signIn(data)
+      toast.success("Welcome!")
+      navigate("/app")
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message)
     }
-  });
+  })
 
   return (
     <VStack as="form" onSubmit={onSubmit}>
@@ -45,5 +45,5 @@ export default function SignIn() {
         <Button type="submit">Sign in</Button>
       </HStack>
     </VStack>
-  );
+  )
 }

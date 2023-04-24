@@ -1,3 +1,3 @@
 export default function Matches() {
-  return null;
+  return null
 }

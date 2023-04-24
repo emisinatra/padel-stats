@@ -1,22 +1,22 @@
-import { FaUser, FaSignOutAlt } from "react-icons/fa";
-import styled from "styled-components";
+import { FaUser, FaSignOutAlt } from "react-icons/fa"
+import styled from "styled-components"
 
-import { Link } from "react-router-dom";
-import { supabase } from "../../supabase";
+import { Link } from "react-router-dom"
+import { supabase } from "../../supabase"
 
 const HeaderWrapper = styled.header`
   align-items: center;
   display: flex;
   justify-content: space-between;
   padding: 1.2rem;
-`;
+`
 
 const IconButtonGroup = styled.div`
   align-items: center;
   display: flex;
   gap: 8px;
   justify-content: flex-end;
-`;
+`
 
 const IconButton = styled.button`
   background-color: transparent;
@@ -25,17 +25,17 @@ const IconButton = styled.button`
   cursor: pointer;
   font-size: 14px;
   margin: 0 4px;
-`;
+`
 
 export function Header() {
   const handleSignOut = async () => {
     try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
     } catch (error) {
       // TODO handle sign out error
     }
-  };
+  }
 
   return (
     <HeaderWrapper>
@@ -49,5 +49,5 @@ export function Header() {
         </IconButton>
       </IconButtonGroup>
     </HeaderWrapper>
-  );
+  )
 }

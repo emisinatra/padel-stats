@@ -1,5 +1,5 @@
-import constate from "constate";
-import { useEffect, useState } from "react";
+import constate from "constate"
+import { useEffect, useState } from "react"
 
 const hits = {
   winners: {
@@ -32,32 +32,32 @@ const hits = {
     volea_drive: "volea_drive",
     volea_reves: "volea_reves",
   },
-} as const;
+} as const
 
 export const [MatchProvider, useMatch] = constate(() => {
-  const [time, setTime] = useState(0);
-  const [status, setStatus] = useState("STOPPED");
-  const [intervalId, setIntervalId] = useState<number | null>(null);
+  const [time, setTime] = useState(0)
+  const [status, setStatus] = useState("STOPPED")
+  const [intervalId, setIntervalId] = useState<number | null>(null)
 
   useEffect(() => {
     if (status === "PLAYING") {
       const id = window.setInterval(() => {
-        setTime((prevTime) => prevTime + 1);
-      }, 1000);
+        setTime((prevTime) => prevTime + 1)
+      }, 1000)
 
-      setIntervalId(id);
+      setIntervalId(id)
     }
 
-    return () => clearInterval(intervalId as number);
-  }, [status]);
+    return () => clearInterval(intervalId as number)
+  }, [status])
 
-  const play = () => setStatus("PLAYING");
-  const pause = () => setStatus("PAUSED");
+  const play = () => setStatus("PLAYING")
+  const pause = () => setStatus("PAUSED")
 
   const stop = () => {
-    setStatus("STOPPED");
-    setTime(0);
-  };
+    setStatus("STOPPED")
+    setTime(0)
+  }
 
-  return { time, status, play, pause, stop };
-});
+  return { time, status, play, pause, stop }
+})

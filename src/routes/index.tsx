@@ -1,19 +1,19 @@
-import { Link } from "react-router-dom";
-import styled from "styled-components";
+import { Link } from "react-router-dom"
+import styled from "styled-components"
 
-import logoSrc from "../assets/padle-stats.png";
-import { Container } from "../components/Container";
-import { Button } from "../components";
+import logoSrc from "../assets/padle-stats.png"
+import { Container } from "../components/Container"
+import { Button } from "../components"
 
 const Title = styled.h2`
   font-size: 1.6rem;
-`;
+`
 
 const ButtonGroup = styled.div`
   display: flex;
   align-items: center;
   gap: 0.8rem;
-`;
+`
 
 const ButtonLink = styled(Link)`
   background-color: ${({ theme }) => theme.colors.lime[300]};
@@ -33,7 +33,7 @@ const ButtonLink = styled(Link)`
   &:active {
     background-color: ${({ theme }) => theme.colors.lime[500]};
   }
-`;
+`
 
 export default function Home() {
   return (
@@ -52,5 +52,5 @@ export default function Home() {
         </Button>
       </ButtonGroup>
     </Container>
-  );
+  )
 }

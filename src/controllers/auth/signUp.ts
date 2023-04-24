@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from "zod"
 
-import { supabase } from "../../supabase";
+import { supabase } from "../../supabase"
 
 export const signUpSchema = z
   .object({
@@ -14,9 +14,9 @@ export const signUpSchema = z
     country: z.string(),
     state: z.string(),
   })
-  .refine(({ password, repeatPassword }) => password === repeatPassword, "Passwords do not match");
+  .refine(({ password, repeatPassword }) => password === repeatPassword, "Passwords do not match")
 
-export type SignUpFields = z.infer<typeof signUpSchema>;
+export type SignUpFields = z.infer<typeof signUpSchema>
 
 export const signUp = async (data: SignUpFields) => {
   const { error } = await supabase.auth.signUp({
@@ -32,7 +32,7 @@ export const signUp = async (data: SignUpFields) => {
         state: data.state,
       },
     },
-  });
+  })
 
-  if (error) throw error;
-};
+  if (error) throw error
+}

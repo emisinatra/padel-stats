@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 const FooterWrapper = styled.footer`
   align-items: center;
@@ -7,8 +7,8 @@ const FooterWrapper = styled.footer`
   font-size: 0.8rem;
   justify-content: center;
   padding: 1.2rem;
-`;
+`
 
 export const Footer = () => {
-  return <FooterWrapper>Bubú Software - Mendoza, Argentina</FooterWrapper>;
-};
+  return <FooterWrapper>Bubú Software - Mendoza, Argentina</FooterWrapper>
+}

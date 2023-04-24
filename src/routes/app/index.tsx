@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { Button, Center, HStack, VStack } from "../../components";
+import { Link } from "react-router-dom"
+import { Button, Center, HStack, VStack } from "../../components"
 
 export default function AppHome() {
   return (
@@ -26,5 +26,5 @@ export default function AppHome() {
         <Button>Sign out</Button>
       </VStack>
     </Center>
-  );
+  )
 }

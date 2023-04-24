@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const Button = styled.button`
   background-color: ${({ theme }) => theme.colors.lime[300]};
@@ -20,4 +20,4 @@ export const Button = styled.button`
   &:active {
     background-color: ${({ theme }) => theme.colors.lime[500]};
   }
-`;
+`

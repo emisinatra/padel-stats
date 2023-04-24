@@ -57,6 +57,6 @@ export const theme = {
     lg: "1.6rem",
     xl: "2.4rem",
   },
-} as const;
+} as const
 
-export type CustomTheme = typeof theme;
+export type CustomTheme = typeof theme

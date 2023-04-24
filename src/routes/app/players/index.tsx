@@ -1,3 +1,3 @@
 export default function Players() {
-  return null;
+  return null
 }

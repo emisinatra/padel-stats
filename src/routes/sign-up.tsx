@@ -1,12 +1,12 @@
-import { Country, State } from "country-state-city";
-import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useForm, useWatch } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Country, State } from "country-state-city"
+import { Link } from "react-router-dom"
+import { toast } from "react-toastify"
+import { useForm, useWatch } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 
-import { Button, FormControl, HStack, Input, Label, Select, VStack } from "../components";
-import { signUp, signUpSchema } from "../controllers/auth/signUp";
-import type { SignUpFields } from "../controllers/auth/signUp";
+import { Button, FormControl, HStack, Input, Label, Select, VStack } from "../components"
+import { signUp, signUpSchema } from "../controllers/auth/signUp"
+import type { SignUpFields } from "../controllers/auth/signUp"
 
 export default function SignUp() {
   const {
@@ -17,20 +17,20 @@ export default function SignUp() {
   } = useForm<SignUpFields>({
     resolver: zodResolver(signUpSchema),
     shouldUseNativeValidation: false,
-  });
+  })
 
-  const { country } = useWatch({ control });
-  const countries = Country.getAllCountries();
-  const states = State.getStatesOfCountry(country);
+  const { country } = useWatch({ control })
+  const countries = Country.getAllCountries()
+  const states = State.getStatesOfCountry(country)
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await signUp(data);
-      toast.success("A confirmation email has been sent");
+      await signUp(data)
+      toast.success("A confirmation email has been sent")
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message)
     }
-  });
+  })
 
   return (
     <VStack as="form" onSubmit={onSubmit}>
@@ -114,5 +114,5 @@ export default function SignUp() {
         <Button type="submit">Sign up</Button>
       </HStack>
     </VStack>
-  );
+  )
 }

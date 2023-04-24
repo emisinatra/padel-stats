@@ -1,9 +1,9 @@
-import { BrowserRouter } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
+import { BrowserRouter } from "react-router-dom"
+import { ThemeProvider } from "styled-components"
 
-import { AuthProvider } from "./AuthContext";
-import { MatchProvider } from "./MatchContext";
-import { theme } from "../theme";
+import { AuthProvider } from "./AuthContext"
+import { MatchProvider } from "./MatchContext"
+import { theme } from "../theme"
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -14,5 +14,5 @@ export function Providers({ children }: { children: React.ReactNode }) {
         </ThemeProvider>
       </MatchProvider>
     </AuthProvider>
-  );
+  )
 }
