@@ -8,7 +8,9 @@ type FlexProps = {
 }
 
 export const Flex = styled.div<FlexProps>`
+  align-items: ${({ align = "start" }) => align};
   display: flex;
   flex-direction: ${({ direction = "row" }) => direction};
   gap: ${({ gap = 0 }) => `${gap}rem`};
+  justify-content: ${({ justify = "start" }) => justify};
 `

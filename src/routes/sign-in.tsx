@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import { Button } from "../components/ui/Button"
+import { Flex } from "../components/common/Flex"
 import { FormControl } from "../components/form/FormControl"
 import { Input } from "../components/form/Input"
 import { Label } from "../components/form/Label"
@@ -40,13 +41,13 @@ export default function SignIn() {
         <Input {...register("password")} type="password" />
       </FormControl>
 
-      <div>
+      <Flex>
         <Button as={Link} to="/sign-up">
           Don't have an account?
         </Button>
 
         <Button type="submit">Sign in</Button>
-      </div>
+      </Flex>
     </form>
   )
 }

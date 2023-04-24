@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom"
-import { Button, Center, HStack, VStack } from "../../components"
+
+import { Button } from "../../components/ui/Button"
 
 export default function AppHome() {
   return (
-    <Center style={{ height: "100%" }}>
-      <VStack style={{ maxWidth: "390px" }}>
-        <HStack>
+    <div>
+      <div>
+        <div>
           <Button as={Link} to="/app/matches/tracker">
             Match tracker
           </Button>
@@ -13,7 +14,7 @@ export default function AppHome() {
           <Button as={Link} to="/app/players/register">
             Register player
           </Button>
-        </HStack>
+        </div>
 
         <Button as={Link} to="/app/matches">
           Matches
@@ -24,7 +25,7 @@ export default function AppHome() {
         </Button>
 
         <Button>Sign out</Button>
-      </VStack>
-    </Center>
+      </div>
+    </div>
   )
 }

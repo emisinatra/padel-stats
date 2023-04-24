@@ -11,12 +11,12 @@ const Title = styled.h2`
 
 export default function Home() {
   return (
-    <div>
+    <Flex direction="column" align="center" justify="center" gap={1.6} style={{ height: "100vh" }}>
       <img src={logoSrc} />
 
       <Title>Join the revolutionary world of padle stats!</Title>
 
-      <Flex>
+      <Flex gap={0.8}>
         <Button as={Link} to="/sign-in">
           Sign in
         </Button>
@@ -25,6 +25,6 @@ export default function Home() {
           Sign up
         </Button>
       </Flex>
-    </div>
+    </Flex>
   )
 }

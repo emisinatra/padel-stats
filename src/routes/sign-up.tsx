@@ -4,7 +4,13 @@ import { toast } from "react-toastify"
 import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import { Button, FormControl, HStack, Input, Label, Select, VStack } from "../components"
+import { Button } from "../components/ui/Button"
+import { Flex } from "../components/common/Flex"
+import { FormControl } from "../components/form/FormControl"
+import { HelpText } from "../components/form/HelpText"
+import { Input } from "../components/form/Input"
+import { Label } from "../components/form/Label"
+import { Select } from "../components/form/Select"
 import { signUp, signUpSchema } from "../controllers/auth/signUp"
 import type { SignUpFields } from "../controllers/auth/signUp"
 
@@ -33,8 +39,8 @@ export default function SignUp() {
   })
 
   return (
-    <VStack as="form" onSubmit={onSubmit}>
-      <HStack>
+    <form onSubmit={onSubmit}>
+      <Flex gap={0.8}>
         <FormControl>
           <Label>Email</Label>
           <Input {...register("email")} />
@@ -44,9 +50,9 @@ export default function SignUp() {
           <Label>Telephone number</Label>
           <Input {...register("telephone")} type="tel" />
         </FormControl>
-      </HStack>
+      </Flex>
 
-      <HStack>
+      <Flex gap={0.8}>
         <FormControl>
           <Label>Password</Label>
           <Input {...register("password")} type="password" />
@@ -56,9 +62,9 @@ export default function SignUp() {
           <Label>Repeat password</Label>
           <Input {...register("repeatPassword")} type="password" />
         </FormControl>
-      </HStack>
+      </Flex>
 
-      <HStack>
+      <Flex gap={0.8}>
         <FormControl>
           <Label>First name</Label>
           <Input {...register("firstName")} />
@@ -68,7 +74,7 @@ export default function SignUp() {
           <Label>Last name</Label>
           <Input {...register("lastName")} />
         </FormControl>
-      </HStack>
+      </Flex>
 
       <FormControl>
         <Label>Date of birth</Label>
@@ -76,7 +82,7 @@ export default function SignUp() {
         <Input {...register("dateOfBirth", { valueAsDate: true })} type="date" />
       </FormControl>
 
-      <HStack>
+      <Flex gap={0.8}>
         <FormControl>
           <Label>Country</Label>
 
@@ -89,30 +95,28 @@ export default function SignUp() {
           </Select>
         </FormControl>
 
-        {states.length > 1 && (
-          <FormControl>
-            <Label>State/Province</Label>
+        <FormControl>
+          <Label>State/Province</Label>
 
-            <Select {...register("state")}>
-              {states.map((state) => (
-                <option key={state.isoCode} value={state.isoCode}>
-                  {state.name}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
-        )}
-      </HStack>
+          <Select {...register("state")}>
+            {states.map((state) => (
+              <option key={state.isoCode} value={state.isoCode}>
+                {state.name}
+              </option>
+            ))}
+          </Select>
+        </FormControl>
+      </Flex>
 
-      {errors.root && <p>{errors.root.message}</p>}
+      {errors.root && <HelpText variant="error">{errors.root.message}</HelpText>}
 
-      <HStack style={{ justifyContent: "space-between" }}>
+      <Flex style={{ justifyContent: "space-between" }}>
         <Button as={Link} to="/sign-in">
           Already have an account?
         </Button>
 
         <Button type="submit">Sign up</Button>
-      </HStack>
-    </VStack>
+      </Flex>
+    </form>
   )
 }
