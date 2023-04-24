@@ -3,7 +3,10 @@ import { toast } from "react-toastify"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import { Button, FormControl, HStack, Input, Label, VStack } from "../components"
+import { Button } from "../components/ui/Button"
+import { FormControl } from "../components/form/FormControl"
+import { Input } from "../components/form/Input"
+import { Label } from "../components/form/Label"
 import { signIn, signInSchema } from "../controllers/auth/signIn"
 import type { SignInFields } from "../controllers/auth/signIn"
 
@@ -26,7 +29,7 @@ export default function SignIn() {
   })
 
   return (
-    <VStack as="form" onSubmit={onSubmit}>
+    <form onSubmit={onSubmit}>
       <FormControl>
         <Label>Email</Label>
         <Input {...register("email")} />
@@ -37,13 +40,13 @@ export default function SignIn() {
         <Input {...register("password")} type="password" />
       </FormControl>
 
-      <HStack style={{ justifyContent: "space-between" }}>
+      <div>
         <Button as={Link} to="/sign-up">
           Don't have an account?
         </Button>
 
         <Button type="submit">Sign in</Button>
-      </HStack>
-    </VStack>
+      </div>
+    </form>
   )
 }
