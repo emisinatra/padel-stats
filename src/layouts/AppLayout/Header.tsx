@@ -1,9 +1,8 @@
-import { FaCog, FaUser, FaSignOutAlt } from "react-icons/fa";
+import { FaUser, FaSignOutAlt } from "react-icons/fa";
 import styled from "styled-components";
 
-import { supabase } from "../supabase";
-import Logo from "./Logo";
 import { Link } from "react-router-dom";
+import { supabase } from "../../supabase";
 
 const HeaderWrapper = styled.header`
   align-items: center;
@@ -40,12 +39,8 @@ export function Header() {
 
   return (
     <HeaderWrapper>
-      <Link to="/app">
-        <Logo />
-      </Link>
-
       <IconButtonGroup>
-        <IconButton as={Link} to="/app/me">
+        <IconButton as={Link} to="#">
           <FaUser size={24} />
         </IconButton>
 

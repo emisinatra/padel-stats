@@ -1,10 +1,12 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
+import AppHome from "./routes/app";
 import AppLayout from "./layouts/AppLayout";
-import AppRoot from "./routes/app";
+import AuthLayout from "./layouts/AuthLayout";
 import Home from "./routes";
 import Match from "./routes/app/matches/match";
 import Matches from "./routes/app/matches";
+import NotFound from "./routes/404";
 import Player from "./routes/app/players/player";
 import Players from "./routes/app/players";
 import Register from "./routes/app/players/register";
@@ -16,11 +18,14 @@ export default function App() {
   return (
     <Routes>
       <Route index element={<Home />} />
-      <Route path="sign-in" element={<SignIn />} />
-      <Route path="sign-up" element={<SignUp />} />
+
+      <Route element={<AuthLayout />}>
+        <Route path="sign-in" element={<SignIn />} />
+        <Route path="sign-up" element={<SignUp />} />
+      </Route>
 
       <Route path="app" element={<AppLayout />}>
-        <Route index element={<AppRoot />} />
+        <Route index element={<AppHome />} />
 
         <Route path="matches">
           <Route index element={<Matches />} />
@@ -35,7 +40,7 @@ export default function App() {
         </Route>
       </Route>
 
-      <Route path="*" element={<Navigate to="/" />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button, Center, HStack, VStack } from "../../components";
 
-export default function AppRoot() {
+export default function AppHome() {
   return (
     <Center style={{ height: "100%" }}>
       <VStack style={{ maxWidth: "390px" }}>

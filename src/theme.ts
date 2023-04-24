@@ -43,6 +43,20 @@ export const theme = {
       1200: "#381316",
     },
   },
+  borderRadius: {
+    xs: "0.2rem",
+    sm: "0.4rem",
+    md: "0.8rem",
+    lg: "1.2rem",
+    xl: "1.6rem",
+  },
+  fontSize: {
+    xs: "0.6rem",
+    sm: "0.8rem",
+    md: "1rem",
+    lg: "1.6rem",
+    xl: "2.4rem",
+  },
 } as const;
 
 export type CustomTheme = typeof theme;

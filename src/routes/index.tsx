@@ -1,34 +1,56 @@
-import { Link, useNavigate } from "react-router-dom";
-
-import { Button, Center, HStack, Title, VStack } from "../components";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import { fadeIn } from "../keyframes";
-import Logo from "../components/Logo";
+import logoSrc from "../assets/padle-stats.png";
+import { Container } from "../components/Container";
+import { Button } from "../components";
 
-const AnimatedTitle = styled(Title)`
-  animation-name: ${fadeIn};
-  animation-duration: 1s;
+const Title = styled.h2`
+  font-size: 1.6rem;
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+`;
+
+const ButtonLink = styled(Link)`
+  background-color: ${({ theme }) => theme.colors.lime[300]};
+  border-color: ${({ theme }) => theme.colors.lime[700]};
+  border-radius: 0.4rem;
+  border-style: solid;
+  border-width: 1px;
+  color: ${({ theme }) => theme.colors.lime[1200]};
+  padding: 0.4rem 1.2rem;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lime[400]};
+    border-color: ${({ theme }) => theme.colors.lime[800]};
+  }
+
+  &:active {
+    background-color: ${({ theme }) => theme.colors.lime[500]};
+  }
 `;
 
 export default function Home() {
   return (
-    <Center style={{ height: "100vh" }}>
-      <VStack style={{ alignItems: "center" }}>
-        <Logo />
+    <Container>
+      <img src={logoSrc} />
 
-        <AnimatedTitle style={{ fontSize: "1.6rem" }}>Join the revolutionary world of padle stats!</AnimatedTitle>
+      <Title>Join the revolutionary world of padle stats!</Title>
 
-        <HStack>
-          <Button as={Link} to="/sign-in">
-            Sign in
-          </Button>
+      <ButtonGroup>
+        <Button as={Link} to="/sign-in">
+          Sign in
+        </Button>
 
-          <Button as={Link} to="/sign-up">
-            Sign up
-          </Button>
-        </HStack>
-      </VStack>
-    </Center>
+        <Button as={Link} to="/sign-up">
+          Sign up
+        </Button>
+      </ButtonGroup>
+    </Container>
   );
 }

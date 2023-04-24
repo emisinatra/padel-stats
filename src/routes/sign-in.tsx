@@ -1,27 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button, Center, FormControl, HStack, Input, Label, VStack } from "../components";
-import { supabase } from "../supabase";
-
-const signInSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
-
-type SignInFields = z.infer<typeof signInSchema>;
-
-const signIn = async (data: SignInFields) => {
-  const { error } = await supabase.auth.signInWithPassword({
-    email: data.email,
-    password: data.password,
-  });
-
-  if (error) throw error;
-};
+import { Button, FormControl, HStack, Input, Label, VStack } from "../components";
+import { signIn, signInSchema } from "../controllers/auth/signIn";
+import type { SignInFields } from "../controllers/auth/signIn";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -42,26 +26,24 @@ export default function SignIn() {
   });
 
   return (
-    <Center style={{ height: "100vh" }}>
-      <VStack as="form" onSubmit={onSubmit} style={{ width: "390px" }}>
-        <FormControl>
-          <Label>Email</Label>
-          <Input {...register("email")} />
-        </FormControl>
+    <VStack as="form" onSubmit={onSubmit}>
+      <FormControl>
+        <Label>Email</Label>
+        <Input {...register("email")} />
+      </FormControl>
 
-        <FormControl>
-          <Label>Password</Label>
-          <Input {...register("password")} type="password" />
-        </FormControl>
+      <FormControl>
+        <Label>Password</Label>
+        <Input {...register("password")} type="password" />
+      </FormControl>
 
-        <HStack style={{ fontSize: "0.8rem", justifyContent: "space-between" }}>
-          <Button as={Link} to="/sign-up">
-            Don't have an account?
-          </Button>
+      <HStack style={{ justifyContent: "space-between" }}>
+        <Button as={Link} to="/sign-up">
+          Don't have an account?
+        </Button>
 
-          <Button type="submit">Sign in</Button>
-        </HStack>
-      </VStack>
-    </Center>
+        <Button type="submit">Sign in</Button>
+      </HStack>
+    </VStack>
   );
 }
