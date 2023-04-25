@@ -5,7 +5,6 @@ import { motion } from "framer-motion"
 import { Button } from "../components/ui/Button"
 import { Flex } from "../components/common/Flex"
 import { Ball, Padle, Stats } from "../components/Logo"
-import { useRef } from "react"
 
 const Title = styled(motion.h2)`
   font-size: 1.6rem;

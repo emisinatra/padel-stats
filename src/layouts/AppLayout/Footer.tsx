@@ -10,5 +10,5 @@ const FooterWrapper = styled.footer`
 `
 
 export const Footer = () => {
-  return <FooterWrapper>Bubú Software - Mendoza, Argentina</FooterWrapper>
+  return <FooterWrapper>bubu smart solutions® - Mendoza, Argentina.</FooterWrapper>
 }

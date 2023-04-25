@@ -2,13 +2,14 @@ import { FaUser, FaSignOutAlt } from "react-icons/fa"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import { supabase } from "../../supabase"
+import Logo from "../../assets/padle-stats.svg"
 
 const HeaderWrapper = styled.header`
   align-items: center;
   display: flex;
   justify-content: space-between;
   padding: 1.2rem;
-  background-color: lightblue;
+  background-color: transparent;
 `
 
 const IconButtonGroup = styled.div`
@@ -27,6 +28,15 @@ const IconButton = styled.button`
   margin: 0 4px;
 `
 
+const LogoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  img {
+    height: 48px;
+    width: auto;
+  }
+`
+
 export function Header() {
   const handleSignOut = async () => {
     try {
@@ -37,6 +47,9 @@ export function Header() {
 
   return (
     <HeaderWrapper>
+      <LogoWrapper>
+        <img src={Logo} alt="Padel Stats Logo" />
+      </LogoWrapper>
       <IconButtonGroup>
         <IconButton as={Link} to="#">
           <FaUser size={24} />
