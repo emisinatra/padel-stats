@@ -10,7 +10,7 @@ const ContentWrapper = styled.div`
 
 export default function AuthLayout() {
   return (
-    <Flex direction="column" justify="center" align="center">
+    <Flex direction="column" justify="center" align="center" gap={1.6} style={{ marginTop: "8rem" }}>
       <Link to="/">
         <img src={logoSrc} />
       </Link>

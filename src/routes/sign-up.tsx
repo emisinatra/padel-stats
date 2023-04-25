@@ -1,5 +1,6 @@
 import { Country, State } from "country-state-city"
 import { Link } from "react-router-dom"
+import { motion } from "framer-motion"
 import { toast } from "react-toastify"
 import { useForm, useWatch } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -39,7 +40,7 @@ export default function SignUp() {
   })
 
   return (
-    <form onSubmit={onSubmit}>
+    <motion.form animate={{ y: [-16, 0], opacity: [0, 1] }} exit={{ y: 16 }} onSubmit={onSubmit}>
       <Flex gap={0.8}>
         <FormControl>
           <Label>Email</Label>
@@ -117,6 +118,6 @@ export default function SignUp() {
 
         <Button type="submit">Sign up</Button>
       </Flex>
-    </form>
+    </motion.form>
   )
 }

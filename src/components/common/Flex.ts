@@ -13,4 +13,6 @@ export const Flex = styled.div<FlexProps>`
   flex-direction: ${({ direction = "row" }) => direction};
   gap: ${({ gap = 0 }) => `${gap}rem`};
   justify-content: ${({ justify = "start" }) => justify};
+
+  width: 100%;
 `
