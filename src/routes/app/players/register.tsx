@@ -10,10 +10,11 @@ import { HelpText } from "../../../components/form/HelpText"
 import { Input } from "../../../components/form/Input"
 import { Label } from "../../../components/form/Label"
 import { Select } from "../../../components/form/Select"
-import { registerPlayerSchema, registerPlayer } from "../../../controllers/players/registerPlayer"
+import { playerDataSchema, registerPlayer, uploadImage } from "../../../controllers/players/registerPlayer"
 import type { RegisterPlayerFields } from "../../../controllers/players/registerPlayer"
 import { useAuth } from "../../../contexts/AuthContext"
 import styled from "styled-components"
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -30,23 +31,37 @@ const Form = styled.form`
   max-width: 590px;
   padding: 2rem;
 `
+
 export default function Register() {
   const {
     formState: { errors },
     handleSubmit,
     register,
   } = useForm<RegisterPlayerFields>({
-    resolver: zodResolver(registerPlayerSchema),
+    resolver: zodResolver(playerDataSchema),
     shouldUseNativeValidation: false,
   })
+
   const countries = Country.getAllCountries()
   const { user } = useAuth()
 
   const onSubmit = handleSubmit(async (data) => {
+    console.log("onSubmit called with data:", data)
+
     try {
-      await registerPlayer(user.id, data)
+      let imagePath = null
+
+      if (data.imagePath && data.imagePath.length) {
+        const file = data.imagePath[0]
+        imagePath = await uploadImage(user.id, file)
+        console.log("Image uploaded, path:", imagePath)
+      }
+
+      await registerPlayer(user.id, { ...data, imagePath })
+      console.log("Player registered")
       toast.success("You added a new player")
     } catch (error) {
+      console.error("Error in onSubmit:", error)
       toast.error(error.message)
     }
   })
@@ -95,6 +110,11 @@ export default function Register() {
           </FormControl>
 
           <FormControl>
+            <Label>Player Image</Label>
+            <Input {...register("imagePath")} type="file" accept="image/*" />
+          </FormControl>
+
+          <FormControl>
             <Label>Side</Label>
             <Select {...register("side")}>
               <option value="L">Left side</option>
@@ -104,7 +124,9 @@ export default function Register() {
         </Flex>
         {errors.root && <HelpText variant="error">{errors.root.message}</HelpText>}
         <Flex style={{ justifyContent: "center" }}>
-          <Button type="submit">Add</Button>
+          <Button type="submit" onClick={onSubmit}>
+            Add
+          </Button>
         </Flex>
       </Form>
     </Container>
