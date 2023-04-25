@@ -1,6 +1,5 @@
 import { FaUser, FaSignOutAlt } from "react-icons/fa"
 import styled from "styled-components"
-
 import { Link } from "react-router-dom"
 import { supabase } from "../../supabase"
 
@@ -9,6 +8,7 @@ const HeaderWrapper = styled.header`
   display: flex;
   justify-content: space-between;
   padding: 1.2rem;
+  background-color: lightblue;
 `
 
 const IconButtonGroup = styled.div`
@@ -32,9 +32,7 @@ export function Header() {
     try {
       const { error } = await supabase.auth.signOut()
       if (error) throw error
-    } catch (error) {
-      // TODO handle sign out error
-    }
+    } catch (error) {}
   }
 
   return (
