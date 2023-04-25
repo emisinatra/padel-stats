@@ -1,6 +1,7 @@
 import { FaUser, FaSignOutAlt } from "react-icons/fa"
-import styled from "styled-components"
 import { Link } from "react-router-dom"
+import styled from "styled-components"
+
 import { supabase } from "../../supabase"
 import Logo from "../../assets/padle-stats.svg"
 
