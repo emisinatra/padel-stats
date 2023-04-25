@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { supabase } from "../../supabase"
 
-export const playerDataSchema = z.object({
+export const registerPlayerSchema = z.object({
   email: z.string().email(),
   telephone: z.string(),
   name: z.string(),
@@ -9,38 +9,29 @@ export const playerDataSchema = z.object({
   dateOfBirth: z.date(),
   country: z.string(),
   side: z.enum(["L", "R"]),
-  imagePath: z.string().nullable(),
+  image: z.any(),
 })
 
-export type RegisterPlayerFields = z.infer<typeof playerDataSchema>
+export type RegisterPlayerFields = z.infer<typeof registerPlayerSchema>
 
-export const registerPlayerSchema = playerDataSchema.safeParse
-
-export async function uploadImage(userId, file) {
-  console.log("uploadImage called with userId and file:", userId, file)
+export async function uploadImage(userId: number, file: File) {
   const fileExtension = file && file.name ? file.name.split(".").pop() : null
+  const fileName = `${userId}-${Date.now()}.${fileExtension}`
+  const { data, error } = await supabase.storage.from("player-photo").upload(fileName, file)
 
-  if (fileExtension) {
-    const fileName = `${userId}-${Date.now()}.${fileExtension}`
+  if (error) throw error
 
-    const { data: uploadResponse, error: uploadError } = await supabase.storage
-      .from("player-photo")
-      .upload(fileName, file)
+  const {
+    data: { publicUrl },
+  } = supabase.storage.from("player-photo").getPublicUrl(data.path)
 
-    if (uploadError) throw uploadError
-
-    return uploadResponse.path
-  }
-
-  return null
+  return publicUrl
 }
 
-export async function registerPlayer(coachId: number, playerData: RegisterPlayerFields) {
-  console.log("registerPlayer called with coachId and playerData:", coachId, playerData)
-
-  const { imagePath, ...rest } = playerData
-
-  const { error } = await supabase.from("players").insert([{ ...rest, coachId, imagePath }])
+export async function registerPlayer(coachId: number, data: RegisterPlayerFields) {
+  const { image, ...rest } = data
+  const imagePath = await uploadImage(coachId, image)
+  const { error } = await supabase.from("players").insert({ coachId, imagePath, ...rest })
 
   if (error) throw error
 }

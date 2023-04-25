@@ -10,10 +10,11 @@ import { HelpText } from "../../../components/form/HelpText"
 import { Input } from "../../../components/form/Input"
 import { Label } from "../../../components/form/Label"
 import { Select } from "../../../components/form/Select"
-import { playerDataSchema, registerPlayer, uploadImage } from "../../../controllers/players/registerPlayer"
+import { registerPlayer, registerPlayerSchema } from "../../../controllers/players/registerPlayer"
 import type { RegisterPlayerFields } from "../../../controllers/players/registerPlayer"
 import { useAuth } from "../../../contexts/AuthContext"
 import styled from "styled-components"
+import { useEffect } from "react"
 
 const Container = styled.div`
   display: flex;
@@ -38,30 +39,23 @@ export default function Register() {
     handleSubmit,
     register,
   } = useForm<RegisterPlayerFields>({
-    resolver: zodResolver(playerDataSchema),
+    resolver: zodResolver(registerPlayerSchema),
     shouldUseNativeValidation: false,
   })
 
   const countries = Country.getAllCountries()
+
+  useEffect(() => {
+    console.log(errors)
+  }, [errors])
+
   const { user } = useAuth()
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log("onSubmit called with data:", data)
-
     try {
-      let imagePath = null
-
-      if (data.imagePath && data.imagePath.length) {
-        const file = data.imagePath[0]
-        imagePath = await uploadImage(user.id, file)
-        console.log("Image uploaded, path:", imagePath)
-      }
-
-      await registerPlayer(user.id, { ...data, imagePath })
-      console.log("Player registered")
-      toast.success("You added a new player")
+      await registerPlayer(user.id, data)
+      toast.success("New player added")
     } catch (error) {
-      console.error("Error in onSubmit:", error)
       toast.error(error.message)
     }
   })
@@ -74,6 +68,7 @@ export default function Register() {
             <Label>Email</Label>
             <Input {...register("email")} />
           </FormControl>
+
           <FormControl>
             <Label>Telephone number</Label>
             <Input {...register("telephone")} type="tel" />
@@ -111,22 +106,29 @@ export default function Register() {
 
           <FormControl>
             <Label>Player Image</Label>
-            <Input {...register("imagePath")} type="file" accept="image/*" />
+            <Input
+              {...register("image", {
+                setValueAs: (value: FileList) => value.item(0),
+              })}
+              type="file"
+              accept="image/*"
+            />
           </FormControl>
 
           <FormControl>
             <Label>Side</Label>
+
             <Select {...register("side")}>
               <option value="L">Left side</option>
               <option value="R">Right side</option>
             </Select>
           </FormControl>
         </Flex>
+
         {errors.root && <HelpText variant="error">{errors.root.message}</HelpText>}
+
         <Flex style={{ justifyContent: "center" }}>
-          <Button type="submit" onClick={onSubmit}>
-            Add
-          </Button>
+          <Button type="submit">Add</Button>
         </Flex>
       </Form>
     </Container>
