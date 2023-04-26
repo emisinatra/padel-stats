@@ -1,5 +1,3 @@
-// components/PlayerCard.tsx
-import React from "react"
 import styled from "styled-components"
 
 const CardWrapper = styled.div`
@@ -13,12 +11,13 @@ const CardWrapper = styled.div`
   width: 250px;
 `
 
-const PlayerImage = styled.div`
+const PlayerImage = styled.img`
   background-color: #ccc;
   border-radius: 50%;
   height: 100px;
   margin-bottom: 1rem;
   width: 100px;
+  object-fit: cover;
 `
 
 const PlayerInfo = styled.div`
@@ -41,12 +40,13 @@ interface PlayerCardProps {
   birthdate: string
   side: string
   country: string
+  imagePath: string
 }
 
-export const PlayerCard: React.FC<PlayerCardProps> = ({ firstName, lastName, birthdate, side, country }) => {
+const PlayerCard = ({ firstName, lastName, birthdate, side, country, imagePath }: PlayerCardProps) => {
   return (
     <CardWrapper>
-      <PlayerImage />
+      <PlayerImage src={imagePath} alt={`${firstName} ${lastName}`} />
       <PlayerInfo>
         <PlayerName>{`${firstName} ${lastName}`}</PlayerName>
         <PlayerDetail>Fecha de nacimiento: {birthdate}</PlayerDetail>
@@ -56,3 +56,5 @@ export const PlayerCard: React.FC<PlayerCardProps> = ({ firstName, lastName, bir
     </CardWrapper>
   )
 }
+
+export { PlayerCard }

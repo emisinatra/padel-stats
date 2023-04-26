@@ -40,6 +40,7 @@ const PlayersView = () => {
           birthdate={player.dateOfBirth}
           side={player.side}
           country={player.country}
+          imagePath={player.imagePath}
         />
       ))}
     </PlayersGrid>

@@ -45,13 +45,10 @@ export default function Register() {
 
   const countries = Country.getAllCountries()
 
-  useEffect(() => {
-    console.log(errors)
-  }, [errors])
-
   const { user } = useAuth()
 
   const onSubmit = handleSubmit(async (data) => {
+    console.log(data.image)
     try {
       await registerPlayer(user.id, data)
       toast.success("New player added")
@@ -106,13 +103,7 @@ export default function Register() {
 
           <FormControl>
             <Label>Player Image</Label>
-            <Input
-              {...register("image", {
-                setValueAs: (value: FileList) => value.item(0),
-              })}
-              type="file"
-              accept="image/*"
-            />
+            <Input {...register("image")} type="file" accept="image/*" />
           </FormControl>
 
           <FormControl>
