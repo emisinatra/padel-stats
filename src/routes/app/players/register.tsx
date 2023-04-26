@@ -124,7 +124,7 @@ export default function Register() {
         {errors.root && <HelpText variant="error">{errors.root.message}</HelpText>}
 
         <Flex style={{ justifyContent: "center" }}>
-          <Button type="submit">Add</Button>
+          <Button type="submit">Add player</Button>
         </Flex>
       </Form>
     </Container>
