@@ -5,11 +5,12 @@ import { getPlayersByCoachId } from "../../../controllers/players/getPlayersByCo
 import { useAuth } from "../../../contexts/AuthContext"
 
 const PlayersGrid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-rows: auto;
+  grid-gap: 1rem;
   padding: 1rem;
+  width: 100%;
 `
 
 const PlayersView = () => {

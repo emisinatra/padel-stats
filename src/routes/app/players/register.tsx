@@ -10,11 +10,11 @@ import { HelpText } from "../../../components/form/HelpText"
 import { Input } from "../../../components/form/Input"
 import { Label } from "../../../components/form/Label"
 import { Select } from "../../../components/form/Select"
+import { FileUpload } from "../../../components/form/FileUpload"
 import { registerPlayer, registerPlayerSchema } from "../../../controllers/players/registerPlayer"
 import type { RegisterPlayerFields } from "../../../controllers/players/registerPlayer"
 import { useAuth } from "../../../contexts/AuthContext"
 import styled from "styled-components"
-import { useEffect } from "react"
 
 const Container = styled.div`
   display: flex;
@@ -31,6 +31,12 @@ const Form = styled.form`
   gap: 0.8rem;
   max-width: 590px;
   padding: 2rem;
+`
+const FileUploadContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-left: 1rem;
 `
 
 export default function Register() {
@@ -101,14 +107,13 @@ export default function Register() {
             </Select>
           </FormControl>
 
-          <FormControl>
+          <FileUploadContainer>
             <Label>Player Image</Label>
-            <Input {...register("image")} type="file" accept="image/*" />
-          </FormControl>
+            <FileUpload register={register} name="image" accept="image/*" />
+          </FileUploadContainer>
 
           <FormControl>
             <Label>Side</Label>
-
             <Select {...register("side")}>
               <option value="L">Left side</option>
               <option value="R">Right side</option>
