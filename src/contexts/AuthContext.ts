@@ -9,7 +9,7 @@ export const [AuthProvider, useAuth] = constate(() => {
 
   const [status, setStatus] = useState<"LOADING" | "AUTHENTICATED" | "NOT_AUTHENTICATED">("LOADING")
 
-  useTimeout(() => {
+  useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         setUser(session.user)
@@ -19,7 +19,7 @@ export const [AuthProvider, useAuth] = constate(() => {
         setStatus("NOT_AUTHENTICATED")
       }
     })
-  }, 1000)
+  }, [])
 
   useEffect(() => {
     const {

@@ -1,13 +1,18 @@
-import { MdAdd } from "react-icons/md"
+import { FaPlay, FaStop } from "react-icons/fa"
+import { useState } from "react"
 import styled from "styled-components"
 
-const TrackerContainer = styled.div`
+import { Button } from "../../../components/ui/Button"
+import { Flex } from "../../../components/common/Flex"
+import { useMatch } from "../../../contexts/Match/context"
+
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 `
 
-const Score = styled.div``
+const ScoreBoard = styled.div``
 
 const Team = styled.div`
   display: flex;
@@ -35,85 +40,134 @@ const SetsContainer = styled.div`
 
 const Sets = styled.span``
 
-const AddButton = styled.button.attrs({
-  children: <MdAdd />,
-})`
-  align-items: center;
-  border-radius: 100%;
-  border: 1px solid black;
-  display: flex;
-  height: 1.6rem;
-  justify-content: center;
-  width: 1.6rem;
-`
-
-type Hit = string
-
-type Point = {
-  hit: Hit
-  prevScore: Score
-}
-
-type Player = {
-  id: number
-  name: string
-  points: Point[]
-}
-
-type Score = {
-  points: 0
-  sets: 0
-  games: 0
-}
-
-type Team = {
-  players: [Player, Player]
-  score: Score
-}
-
-type Match = {
-  startedAt: Date
-  teams: [Team, Team]
-}
-
 export default function Tracker() {
+  const [tracking, setTracking] = useState({
+    team: "L",
+    player: "L",
+  })
+
+  const { state, dispatch } = useMatch()
+
   return (
-    <TrackerContainer>
-      <Score>
+    <Container>
+      <Flex>
+        <Button onClick={() => dispatch({ type: "START_MATCH" })}>
+          <FaPlay />
+        </Button>
+
+        <Button onClick={() => dispatch({ type: "END_MATCH" })}>
+          <FaStop />
+        </Button>
+
+        <Button onClick={() => dispatch({ type: "RESET_MATCH" })}>RESET</Button>
+      </Flex>
+
+      <Flex>
+        <Button
+          onClick={() =>
+            dispatch({
+              type: "ADD_POINT",
+              payload: {
+                playerSide: null,
+                hit: null,
+                type: "WINNER",
+
+                teamSide: "L",
+                scoredAt: Date.now(),
+                prevScore: {
+                  L: state.teams.L.score,
+                  R: state.teams.R.score,
+                  isTieBreak: state.isTieBreak,
+                },
+              },
+            })
+          }
+        >
+          ADD POINT TEAM L
+        </Button>
+
+        <Button
+          onClick={() =>
+            dispatch({
+              type: "ADD_POINT",
+              payload: {
+                playerSide: null,
+                hit: null,
+                type: "WINNER",
+
+                teamSide: "R",
+                scoredAt: Date.now(),
+                prevScore: {
+                  L: state.teams.L.score,
+                  R: state.teams.R.score,
+                  isTieBreak: state.isTieBreak,
+                },
+              },
+            })
+          }
+        >
+          ADD POINT TEAM R
+        </Button>
+      </Flex>
+
+      <Flex>
+        <Button onClick={() => setTracking({ team: "L", player: "L" })}>Track Player L of Team L</Button>
+        <Button onClick={() => setTracking({ team: "L", player: "R" })}>Track Player R of Team L</Button>
+        <Button onClick={() => setTracking({ team: "R", player: "L" })}>Track Player L of Team R</Button>
+        <Button onClick={() => setTracking({ team: "R", player: "R" })}>Track Player R of Team R</Button>
+      </Flex>
+
+      <p>
+        Tracking player {tracking.player} of team {tracking.team}
+      </p>
+
+      <p>Set 0 winner: {state.setsWinners[1] ?? "No winner yet"}</p>
+      <p>Set 1 winner: {state.setsWinners[2] ?? "No winner yet"}</p>
+      <p>Set 2 winner: {state.setsWinners[3] ?? "No winner yet"}</p>
+
+      <p>Match winner: {state.matchWinner ?? "No winner yet"}</p>
+
+      <p>{state.startedAt ? `startedAt: ${new Date(state.startedAt).toString()}` : "Todavía no empieza"}</p>
+      <p>{state.endedAt ? `endedAt: ${new Date(state.endedAt).toString()}` : "Todavía no termina"}</p>
+      <p>isTieBreak: {state.isTieBreak ? "true" : "false"}</p>
+
+      <ScoreBoard>
         <Team>
           <PlayersContainer>
-            <Player>PLAYER1</Player>
-            <Player>PLAYER2</Player>
+            <Player>{state.teams["L"].players["L"].name}</Player>
+            <Player>{state.teams["L"].players["R"].name}</Player>
           </PlayersContainer>
 
-          <Points>0</Points>
+          <Points>{state.teams["L"].score.points}</Points>
+          {state.isTieBreak && <Points>{state.teams["L"].score.tieBreakPoints}</Points>}
 
           <SetsContainer>
-            <Sets>0</Sets>
-            <Sets>0</Sets>
-            <Sets>0</Sets>
+            <Sets>{state.teams["L"].score.sets[1]}</Sets>
+            <Sets>{state.teams["L"].score.sets[2]}</Sets>
+            <Sets>{state.teams["L"].score.sets[3]}</Sets>
           </SetsContainer>
-
-          <AddButton />
         </Team>
 
         <Team>
           <PlayersContainer>
-            <Player>PLAYER3</Player>
-            <Player>PLAYER4</Player>
+            <Player>{state.teams["R"].players["L"].name}</Player>
+            <Player>{state.teams["R"].players["R"].name}</Player>
           </PlayersContainer>
 
-          <Points>0</Points>
+          <Points>{state.teams["R"].score.points}</Points>
+          {state.isTieBreak && <Points>{state.teams["R"].score.tieBreakPoints}</Points>}
 
           <SetsContainer>
-            <Sets>0</Sets>
-            <Sets>0</Sets>
-            <Sets>0</Sets>
+            <Sets>{state.teams["R"].score.sets[1]}</Sets>
+            <Sets>{state.teams["R"].score.sets[2]}</Sets>
+            <Sets>{state.teams["R"].score.sets[3]}</Sets>
           </SetsContainer>
-
-          <AddButton />
         </Team>
-      </Score>
-    </TrackerContainer>
+      </ScoreBoard>
+
+      {state.points.map((point) => (
+        <pre key={point.scoredAt}>{JSON.stringify(point)}</pre>
+      ))}
+    </Container>
   )
 }
