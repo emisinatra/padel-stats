@@ -1,18 +1,13 @@
 import { produce } from "immer"
 
 import { initialState } from "./initialState"
-import type { Match, Point, TeamSide } from "./types"
+import type { Match, Point } from "./types"
 
 type Action =
   | { type: "START_MATCH" }
   | { type: "END_MATCH" }
   | { type: "RESET_MATCH" }
   | { type: "ADD_POINT"; payload: Point }
-
-const checkMatchWinner = (setsWinners: Match["setsWinners"], winningTeamSide: TeamSide): boolean =>
-  Object.entries(setsWinners).reduce((count, [, teamSide]) => {
-    return teamSide === winningTeamSide ? count + 1 : count
-  }, 0) === 2
 
 export const reducer = produce((draft: Match, action: Action) => {
   switch (action.type) {
@@ -32,42 +27,36 @@ export const reducer = produce((draft: Match, action: Action) => {
       if (draft.startedAt === null) return
       if (draft.endedAt !== null) return
 
-      const { teamSide, type: hitType } = action.payload
-      const winningTeamSide = hitType === "WINNER" ? teamSide : teamSide === "L" ? "R" : "L"
-      const losingTeamSide = hitType === "WINNER" ? (teamSide === "L" ? "R" : "L") : teamSide
-      const winningTeam = draft.teams[winningTeamSide]
-      const losingTeam = draft.teams[losingTeamSide]
+      let { currentSet, isTieBreak, setsWinners, teams } = draft
+      let { teamSide, type: hitType } = action.payload
+      let w = hitType === "WINNER" ? teamSide : teamSide === "L" ? "R" : "L"
+      let l = hitType === "WINNER" ? (teamSide === "L" ? "R" : "L") : teamSide
       draft.points.push(action.payload)
 
       if (draft.isTieBreak) {
-        // TODO
+        teams[w].score.tieBreakPoints += 1
       } else {
-        if (winningTeam.score.points === 0) {
-          winningTeam.score.points = 15
-        } else if (winningTeam.score.points === 15) {
-          winningTeam.score.points = 30
-        } else if (winningTeam.score.points === 30) {
-          winningTeam.score.points = 40
-        } else if (winningTeam.score.points === 40) {
-          winningTeam.score.points = 0
-          losingTeam.score.points = 0
-          winningTeam.score.sets[draft.currentSet] += 1
+        if (teams[w].score.points === 0) teams[w].score.points = 15
+        else if (teams[w].score.points === 15) teams[w].score.points = 30
+        else if (teams[w].score.points === 30) teams[w].score.points = 40
+        else if (teams[w].score.points === 40) {
+          teams[w].score.points = 0
+          teams[l].score.points = 0
+          teams[w].score.sets[currentSet] += 1
 
-          if (winningTeam.score.sets[draft.currentSet] >= 6) {
-            if (winningTeam.score.sets[draft.currentSet] - losingTeam.score.sets[draft.currentSet] >= 2) {
-              draft.setsWinners[draft.currentSet] = winningTeamSide
-              draft.currentSet += 1
-            } else if (
-              winningTeam.score.sets[draft.currentSet] === 6 &&
-              losingTeam.score.sets[draft.currentSet] === 6
-            ) {
-              draft.isTieBreak = true
-            }
+          if (teams[w].score.sets[currentSet] >= 6) {
+            if (teams[w].score.sets[currentSet] - teams[l].score.sets[currentSet] >= 2) {
+              setsWinners[currentSet] = w
+              currentSet += 1
+            } else if (teams[w].score.sets[currentSet] === 6 && teams[l].score.sets[currentSet] === 6) isTieBreak = true
           }
         }
 
-        if (checkMatchWinner(draft.setsWinners, winningTeamSide)) {
-          draft.matchWinner = winningTeamSide
+        let winningTeamWonTheMatch =
+          Object.entries(setsWinners).reduce((count, [, teamSide]) => (teamSide === w ? count + 1 : count), 0) === 2
+
+        if (winningTeamWonTheMatch) {
+          draft.matchWinner = w
           draft.endedAt = Date.now()
         }
       }

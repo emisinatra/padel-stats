@@ -1,18 +1,18 @@
-type SetKey = 1 | 2 | 3
-export type TeamSide = "L" | "R"
-type PlayerSide = "L" | "R"
+export type Side = "L" | "R"
+type Team = { players: Record<Side, Player>; score: Score }
+type Player = { id: number; name: string }
+
+type Score = {
+  points: number
+  sets: { 0: number; 1: number; 2: number }
+  tieBreakPoints: number
+}
 
 export type Point = {
-  teamSide: TeamSide
-  playerSide: PlayerSide | null
-
   scoredAt: number
-
-  prevScore: {
-    L: Score
-    R: Score
-    isTieBreak: boolean
-  }
+  teamSide: Side
+  playerSide: Side | null
+  prevScore: { L: Score; R: Score; isTieBreak: boolean }
 } & (
   | {
       type: "WINNER"
@@ -47,37 +47,19 @@ export type Point = {
     }
 )
 
-type Score = {
-  points: number
-  sets: Record<SetKey, number>
-  tieBreakPoints: number
-}
-
 export type Match = {
   startedAt: number
   endedAt: number
-  initialServer: TeamSide
-  currentServer: TeamSide
-  currentSet: 1 | 2 | 3
 
-  setsWinners: {
-    1: "L" | "R"
-    2: "L" | "R"
-    3: "L" | "R"
-  }
+  initialServer: Side
+  currentServer: Side
 
+  currentSet: 0 | 1 | 2
   isTieBreak: boolean
-  matchWinner: "L" | "R"
-  teams: { L: Team; R: Team }
+
+  setsWinners: { 0: Side; 1: Side; 2: Side }
+  matchWinner: Side
+
+  teams: Record<Side, Team>
   points: Point[]
-}
-
-type Team = {
-  players: Record<PlayerSide, Player>
-  score: Score
-}
-
-type Player = {
-  id: number
-  name: string
 }

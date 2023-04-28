@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import constate from "constate"
 
 import { supabase } from "../supabase"
-import { useTimeout } from "usehooks-ts"
 
 export const [AuthProvider, useAuth] = constate(() => {
   const [user, setUser] = useState(null)
